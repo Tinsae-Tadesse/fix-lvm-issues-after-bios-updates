@@ -18,69 +18,68 @@ Even the rescue kernel image failed to boot.
 
    2) 
    ![kernel-rhgb-quiet-parameters](https://github.com/Tinsae-Tadesse/fix-lvm-issues-after-bios-updates/blob/dacf8ae12b82c8cd581b0c93e1479f71de5c53e9/resources/kernel-rhgb-quiet-parameters.jpg)
-   - Save changes and rebooted using `CTRL + x`.
+   - Save the changes and reboot using `CTRL + x`.
 
-4. **Observe Boot Logs**
-   - Check for the following kernel logs:
+3. **Observe Boot Logs**
+   - Look for messages similar to the following:
      ```
      [TIME] Timed out waiting for device /dev/mapper/cs-home.
      [DEPEND] Dependency failed for /home.
      [DEPEND] Dependency failed for Local File System.
      ```
-5. **Create a CentOS Image**
-   - Boot from a CentOS image on a USB drive to access the troubleshooting menu.
+4. **Create a CentOS Image**
+   - Boot from a CentOS installation image on a USB drive and access the troubleshooting menu.
 
-6. **Enable and Unlock Root User**
-   - Run the commands:
+5. **Enable and Unlock the Root User**
+   - Run the following commands:
      ```bash
      sudo passwd root
      sudo passwd -u root
      ```
-   - Reboot to the failing kernels, which will allow access to maintenance mode.
+   - Reboot into the failing kernels; this should now allow access to maintenance mode.
    
-7. **Check Journal Logs**
-   - Use `journalctl -xb` and find the following error:
+6. **Check Journal Logs**
+   - Use `journalctl -xb` and look for errors similar to:
      ```
      lvm[813]: /dev/nvme0n1p6 excluded: device is not in devices file.
      ```
 
-8. **Verify /home Mount Point**
-   - Confirm the entry for `/home` exists in `/etc/fstab`.
+7. **Verify the /home Mount Point**
+   - Confirm that an entry for `/home` exists in `/etc/fstab`.
    - Check mounted filesystems with:
      ```bash
      df -lHT
      ```
-   - Make sure that `/home` is not mounted.
+   - Ensure that `/home` is **not** currently mounted.
 
-9. **Check Volume Groups**
-   - Use `vgs` to find that there are no entries for the `cs` volume group.
-   - Check if there are no entries for `/dev/nvme0n1p6` with `lvmdevices`.
+8. **Check Volume Groups**
+   - Run `sudo vgs` and verify that there are no entries for the `cs` volume group.
+   - Check that there are no entries for `/dev/nvme0n1p6` by running `sudo lvmdevices`.
 
 ## Solution Steps
 
-1. **Add Device to LVM Devices List**
-   - Add `/dev/nvme0n1p6` to the devices list using:
+1. **Add Device to the LVM Devices List**
+   - Add `/dev/nvme0n1p6` to the devices list:
      ```bash
-     lvmdevices --adddev /dev/nvme0n1p6
+     sudo lvmdevices --adddev /dev/nvme0n1p6
      ```
 
 2. **Scan Volume Groups**
-    - Run `vgscan` and confirm that `cs` is now recognized.
+    - Run `sudo vgscan` and verify that the `cs` volume group is now detected.
 
 3. **Activate the Volume Group**
     - Activate the `cs` volume group with:
       ```bash
-      vgchange -ay cs
+      sudo vgchange -ay cs
       ```
 
 4. **Mount All File Systems**
     - Mount all mount points, including `/dev/mapper/cs-home` to `/home` using:
       ```bash
-      mount -a
+      sudo mount -a
       ```
 
-5. **Final Reboot**
-    - Try to reboot and log into one of the existing CentOS kernels.
+After completing the above steps, you should be able to complete the boot process normally.
 
 ## Conclusion
 The LVM issue can be resolved by ensuring the volume group is recognized and activated, allowing the `/home` mount point to function correctly again.
