@@ -13,20 +13,24 @@ Even the rescue kernel image failed to boot.
    
 2. **Update GRUB Parameters**
    - Modify the kernel parameters by removing `rhgb quiet` from the line that starts with `linux` (this enables printing detailed boot logs).
+   1) 
    ![grub-kernel-parameter](https://github.com/Tinsae-Tadesse/fix-lvm-issues-after-bios-updates/blob/23344f37f85917ea4880ee3bbea796b3cb06699a/resources/grub-kernel-parameter.jpg)
+
+   2) 
+   ![kernel-rhgb-quiet-parameters](https://github.com/Tinsae-Tadesse/fix-lvm-issues-after-bios-updates/blob/dacf8ae12b82c8cd581b0c93e1479f71de5c53e9/resources/kernel-rhgb-quiet-parameters.jpg)
    - Save changes and rebooted using `CTRL + x`.
 
-3. **Observe Boot Logs**
+4. **Observe Boot Logs**
    - Check for the following kernel logs:
      ```
      [TIME] Timed out waiting for device /dev/mapper/cs-home.
      [DEPEND] Dependency failed for /home.
      [DEPEND] Dependency failed for Local File System.
      ```
-4. **Create a CentOS Image**
+5. **Create a CentOS Image**
    - Boot from a CentOS image on a USB drive to access the troubleshooting menu.
 
-5. **Enable and Unlock Root User**
+6. **Enable and Unlock Root User**
    - Run the commands:
      ```bash
      sudo passwd root
@@ -34,13 +38,13 @@ Even the rescue kernel image failed to boot.
      ```
    - Reboot to the failing kernels, which will allow access to maintenance mode.
    
-6. **Check Journal Logs**
+7. **Check Journal Logs**
    - Use `journalctl -xb` and find the following error:
      ```
      lvm[813]: /dev/nvme0n1p6 excluded: device is not in devices file.
      ```
 
-7. **Verify /home Mount Point**
+8. **Verify /home Mount Point**
    - Confirm the entry for `/home` exists in `/etc/fstab`.
    - Check mounted filesystems with:
      ```bash
@@ -48,7 +52,7 @@ Even the rescue kernel image failed to boot.
      ```
    - Make sure that `/home` is not mounted.
 
-8. **Check Volume Groups**
+9. **Check Volume Groups**
    - Use `vgs` to find that there are no entries for the `cs` volume group.
    - Check if there are no entries for `/dev/nvme0n1p6` with `lvmdevices`.
 
