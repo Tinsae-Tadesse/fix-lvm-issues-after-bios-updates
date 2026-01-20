@@ -12,7 +12,7 @@ Even the rescue kernel image failed to boot.
    ![grub2-menu](https://github.com/Tinsae-Tadesse/fix-lvm-issues-after-bios-updates/blob/94c77ef89cfa2d82576ff3175566f0d1257044da/resources/grub-menu.jpg)
    
 2. **Update GRUB Parameters**
-   - Modify the `GRUB_CMDLINE_LINUX` argument by removing `rhgb quiet` in `/etc/default/grub` to print boot logs.
+   - Modify the kernel parameters by removing `rhgb quiet` from the line that starts with `linux` (this enables printing detailed boot logs).
    - Save changes and rebooted using `CTRL + x`.
 
 3. **Observe Boot Logs**
