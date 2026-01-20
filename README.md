@@ -7,7 +7,7 @@ Even the rescue kernel image failed to boot.
 
 ## Issue Diagnosis
 
-1. **Entere GRUB Edit Mode**
+1. **Enter GRUB Edit Mode**
    - Press `e` during boot to access GRUB edit mode.
 
 2. **Update GRUB Parameters**
@@ -25,7 +25,7 @@ Even the rescue kernel image failed to boot.
    - Boot from a CentOS image on a USB drive to access the troubleshooting menu.
 
 5. **Enable and Unlock Root User**
-   - Run the below commands:
+   - Run the commands:
      ```bash
      sudo passwd root
      sudo passwd -u root
@@ -47,7 +47,7 @@ Even the rescue kernel image failed to boot.
    - Make sure that `/home` is not mounted.
 
 8. **Check Volume Groups**
-   - Use `vgs` to find there are no entries for the `cs` volume group.
+   - Use `vgs` to find that there are no entries for the `cs` volume group.
    - Check if there are no entries for `/dev/nvme0n1p6` with `lvmdevices`.
 
 ## Solution Steps
