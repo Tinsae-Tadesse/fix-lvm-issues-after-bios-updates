@@ -9,9 +9,8 @@ Even the rescue kernel image failed to boot.
 
 1. **Enter GRUB Edit Mode**
    - Press `e` during boot to access GRUB edit mode.
-   - resources/grub2-bootmenu.jpg
-   ![grub-menu](https://github.com/Tinsae-Tadesse/fix-lvm-issues-after-bios-updates/blob/74d0d8d445adb96bdf1ef96be737f297e871fe96/resources/grub2-bootmenu.jpg)
-
+   ![grub2-menu](https://github.com/Tinsae-Tadesse/fix-lvm-issues-after-bios-updates/blob/8d3022e5c7038247ed8cadecc834ca0e63c8f7d3/resources/grub2-bootmenu.jpg)
+   
 2. **Update GRUB Parameters**
    - Modify the `GRUB_CMDLINE_LINUX` argument by removing `rhgb quiet` in `/etc/default/grub` to print boot logs.
    - Save changes and rebooted using `CTRL + x`.
