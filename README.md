@@ -9,6 +9,7 @@ Even the rescue kernel image failed to boot.
 
 1. **Enter GRUB Edit Mode**
    - Press `e` during boot to access GRUB edit mode.
+   ![image](files/Users/jzhang/Desktop/Isolated.png)
 
 2. **Update GRUB Parameters**
    - Modify the `GRUB_CMDLINE_LINUX` argument by removing `rhgb quiet` in `/etc/default/grub` to print boot logs.
